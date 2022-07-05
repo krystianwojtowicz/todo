@@ -17,7 +17,7 @@ class Book {
 class Project {
   constructor(name) {
     this.name = name;
-    this.tasks = ['asdf'];
+    this.tasks = [];
   }
 }
 let projects = [];
@@ -43,7 +43,8 @@ const addBookToLibrary = (e) => {
     pages: document.getElementById("pages").value,
     read: document.getElementById("read").checked,
   };
-  let project = {name: document.getElementById('project').value, tasks: []}
+  let project = {name: document.getElementById('project').value, tasks: []};
+  projects.push(project);
   project.tasks.push(book);
   form.style.display = "none";
   form.reset();
@@ -73,11 +74,12 @@ function display() {
     createBookElement('h4', 'pages:', `${book.pages}`);
 
     const checkbox = document.createElement("button");
-    if (book.read) {
-      checkbox.textContent = 'read';
-    } else {
-      checkbox.textContent = 'not read';
-    }
+    // if (book.read) {
+    //   checkbox.textContent = 'read';
+    // } else {
+    //   checkbox.textContent = 'not read';
+    // }
+    checkbox.textContent = book.read ? 'read' : 'not read';
     div.appendChild(checkbox);
 
     // create remove book btn and add class attribute for each array card
