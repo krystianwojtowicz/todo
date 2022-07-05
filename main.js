@@ -1,16 +1,16 @@
 const form = document.querySelector("form");
-const addBookBtn = document.querySelector(".add-book");
+const addTaskBtn = document.querySelector(".add-task");
 const close = document.querySelector(".close");
 const submit = document.querySelector(".submit");
-const books = document.querySelector(".wrapper-grid");
+const projects = document.querySelector(".wrapper-grid");
 const remove = document.querySelectorAll(".remove");
 
-class Book {
+class Task {
   constructor(title, author, pages, read) {
     this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.priority = priority;
   }
 }
 
@@ -20,32 +20,37 @@ class Project {
     this.tasks = [];
   }
 }
-let projects = [];
+let arrayOfProjects = [];
 // let project = new Project('defaultProject');
 
 close.addEventListener("click", () => {
   form.style.display = "none";
 });
 
-addBookBtn.addEventListener("click", () => {
+addTaskBtn.addEventListener("click", () => {
   form.style.display = "block";
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  submit.addEventListener("click", addBookToLibrary);
+  submit.addEventListener("click", addTaskToProjects);
 });
 
-const addBookToLibrary = (e) => {
+const addTaskToProjects = (e) => {
   e.preventDefault();
-  let book = {
+  let task = {
     title: document.getElementById("title").value,
-    author: document.getElementById("author").value,
-    pages: document.getElementById("pages").value,
-    read: document.getElementById("read").checked,
+    description: document.getElementById("description").value,
+    dueDate: document.getElementById("dueDate").value,
+    priority: document.getElementById("priority").value,
   };
   let project = {name: document.getElementById('project').value, tasks: []};
-  projects.push(project);
-  project.tasks.push(book);
+  if(arrayOfProjects.forEach((project) => {
+    project.name == document.getElementById('project').value
+  })) {
+    console.log('2')
+  }
+  arrayOfProjects.push(project);
+  arrayOfProjects[0].tasks.push(task);
   form.style.display = "none";
   form.reset();
   display();
@@ -53,10 +58,10 @@ const addBookToLibrary = (e) => {
 
 function display() {
 
-  books.textContent = '';
+  projects.textContent = '';
   let index = 0;
-  project.tasks.forEach((book) => {
-    function createBookElement(el, name, content) {
+  arrayOfProjects[0].tasks.forEach((task) => {
+    function createTaskElement(el, name, content) {
       const elem = document.createElement(el);
       div.appendChild(elem);
       elem.textContent = name;
@@ -67,49 +72,39 @@ function display() {
 
     const div = document.createElement("div");
     div.classList.add("container");
-    books.appendChild(div);
+    projects.appendChild(div);
 
-    createBookElement('h4', 'title:', `${book.title}`);
-    createBookElement('h4', 'author:', `${book.author}`);
-    createBookElement('h4', 'pages:', `${book.pages}`);
+    createTaskElement('h4', 'title:', `${task.title}`);
+    createTaskElement('h4', 'description:', `${task.description}`);
+    createTaskElement('h4', 'dueDate:', `${task.dueDate}`);
+    createTaskElement('h4', 'priority:', `${task.priority}`);
 
-    const checkbox = document.createElement("button");
+
     // if (book.read) {
     //   checkbox.textContent = 'read';
     // } else {
     //   checkbox.textContent = 'not read';
     // }
-    checkbox.textContent = book.read ? 'read' : 'not read';
-    div.appendChild(checkbox);
+    // checkbox.textContent = book.read ? 'read' : 'not read';
 
-    // create remove book btn and add class attribute for each array card
-    const removeBookBtn = document.createElement('button');
-    removeBookBtn.classList.add('remove-book-btn');
-    removeBookBtn.textContent = "remove";
+    // create remove task btn and add class attribute for each array card
+    const removeTaskBtn = document.createElement('button');
+    removeTaskBtn.classList.add('remove-task-btn');
+    removeTaskBtn.textContent = "remove";
 
     // link the data attribute of the remove button to the array and card
-    removeBookBtn.dataset.linkedArray = index;
+    removeTaskBtn.dataset.linkedArray = index;
     index++;
-    div.appendChild(removeBookBtn);
+    div.appendChild(removeTaskBtn);
 
     // start event listener/remove array item from array and card from parent div via data link
-    removeBookBtn.addEventListener('click', removeBookFromLibrary);
+    removeTaskBtn.addEventListener('click', removeTaskFromLibrary);
 
-    function removeBookFromLibrary() {
-      let getBookToRemove = removeBookBtn.dataset.linkedArray;
-      myLibrary.splice(parseInt(getBookToRemove), 1);
+    function removeTaskFromLibrary() {
+      let getTaskToRemove = removeTaskBtn.dataset.linkedArray;
+      arrayOfProjects[0].tasks.splice(parseInt(getTaskToRemove), 1);
       div.remove();
       display();
     }
-
-    checkbox.addEventListener('click', () => {
-      if (book.read) {
-        book.read = false;
-        checkbox.textContent = 'not read';
-      } else {
-        book.read = true;
-        checkbox.textContent = 'read';
-      }
-    });
   })
 }
