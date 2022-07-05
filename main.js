@@ -44,11 +44,19 @@ const addTaskToProjects = (e) => {
     priority: document.getElementById("priority").value,
   };
   let project = {name: document.getElementById('project').value, tasks: []};
-  if(arrayOfProjects.forEach((project) => {
-    project.name == document.getElementById('project').value
-  })) {
-    console.log('2')
-  }
+
+  
+//   if(arrayOfProjects.project) {
+//   if(arrayOfProjects.project[0].indexOf(document.getElementById('project').value)) {
+//     console.log('2')
+//   }
+// }
+
+  // if(arrayOfProjects.forEach((project) => {
+  //   project.name == document.getElementById('project').value
+  // })) {
+  //   console.log('2')
+  // }
   arrayOfProjects.push(project);
   arrayOfProjects[0].tasks.push(task);
   form.style.display = "none";
