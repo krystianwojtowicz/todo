@@ -2,11 +2,13 @@ const form = document.querySelector("form");
 const addTaskBtn = document.querySelector(".add-task");
 const close = document.querySelector(".close");
 const submit = document.querySelector(".submit");
-const projects = document.querySelector(".wrapper-grid");
+const projects2 = document.querySelector(".defaultProjects .wrapper-grid");
 const remove = document.querySelectorAll(".remove");
+const select = document.getElementById('projects');
+const projects = document.querySelector('.projects');
 
 class Task {
-  constructor(title, author, pages, read) {
+  constructor(title, description, dueDate, priority) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
@@ -20,7 +22,20 @@ class Project {
     this.tasks = [];
   }
 }
-let arrayOfProjects = [];
+const arrayOfProjects = [];
+let newArr = [];
+let project = [];
+let divProject;
+
+let projectDefault = new Project('defaultProject');
+arrayOfProjects.push(projectDefault);
+console.log(arrayOfProjects)
+const option = document.createElement('option');
+select.appendChild(option);
+option.value = arrayOfProjects[0].name;
+option.textContent = arrayOfProjects[0].name;
+// const arrayOfProjects = [];
+
 // let project = new Project('defaultProject');
 
 close.addEventListener("click", () => {
@@ -36,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const addTaskToProjects = (e) => {
+  newArr = arrayOfProjects.map(project => project[Object.keys(project)[0]]);
   e.preventDefault();
   let task = {
     title: document.getElementById("title").value,
@@ -43,26 +59,29 @@ const addTaskToProjects = (e) => {
     dueDate: document.getElementById("dueDate").value,
     priority: document.getElementById("priority").value,
   };
-  let project = {name: document.getElementById('project').value, tasks: []};
+  
+  project = {
+    name: select.value,
+    tasks: []
+  };
 
   
+  if (newArr.indexOf(project.name) > -1) {
+    arrayOfProjects[newArr.indexOf(project.name)].tasks.push(task);
+    divProject = document.getElementsByClassName(project.name);
+    console.log(divProject)
+  } else {
+    arrayOfProjects.push(project);
+    arrayOfProjects[arrayOfProjects.length-1].tasks.push(task);
+    console.log(arrayOfProjects);
+    divProject = document.createElement('div');
+    divProject.classList.add(project.name);
+    projects.appendChild(divProject);
 
+  }
+  newArr = arrayOfProjects.map(project => project[Object.keys(project)[0]]);
+  // console.log(arrayOfProjects[newArr.indexOf(project.name)]);
 
-
-
-  // console.log(arrayOfProjects[0])
-
-//     if(arrayOfProjects.project) {
-//   if(arrayOfProjects.project[0].indexOf(document.getElementById('project').value)) {
-//     console.log('2')
-//   }
-// }
-let newArr = arrayOfProjects.map(projects => project[Object.keys(project)[0]]);
-if (newArr.indexOf(project.name) > -1) {console.log('2')};
-arrayOfProjects.push(project);
-arrayOfProjects[0].tasks.push(task);
-    // if(arrayOfProjects) {if(arrayOfProjects[0].name === document.getElementById('project').value) {console.log('2')}
-    // }
   form.style.display = "none";
   form.reset();
   display();
@@ -70,9 +89,11 @@ arrayOfProjects[0].tasks.push(task);
 
 function display() {
 
-  projects.textContent = '';
+  divProject.textContent = '';
   let index = 0;
-  arrayOfProjects[0].tasks.forEach((task) => {
+  // console.log(newArr);
+  // console.log(arrayOfProjects[newArr.indexOf(project.name)]);
+  arrayOfProjects[newArr.indexOf(project.name)].tasks.forEach((task) => {
     function createTaskElement(el, name, content) {
       const elem = document.createElement(el);
       div.appendChild(elem);
@@ -84,7 +105,7 @@ function display() {
 
     const div = document.createElement("div");
     div.classList.add("container");
-    projects.appendChild(div);
+    divProject.appendChild(div);
 
     createTaskElement('h4', 'title:', `${task.title}`);
     createTaskElement('h4', 'description:', `${task.description}`);

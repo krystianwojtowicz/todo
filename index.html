@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div class="for-heading">
@@ -14,14 +16,16 @@
         <button class="add-task">Add task</button>
     </div>
     <div class="projects-heading">
-        <h1>Current Tasks In Projects</h1>
+        <h1>Current Tasks In defaultProjects</h1>
     </div>
 
     <form>
         <span class="close">&times;</span>
         <h1 class="form-title">Add task</h1>
         <label for="project">Project:</label>
-        <input type="text" id="project" name="project">
+        <!-- <input type="text" id="project" name="project"> -->
+        <select id="projects">
+        </select>
         <label for="title">Title:</label>
         <input type="text" id="title" name="title">
         <label for="description">Description:</label>
@@ -32,10 +36,15 @@
         <input type="text" id="priority" name="priority">
         <input class='submit' type="submit" value="Submit">
     </form>
+    
+    <div class="projects">
+        <div class="defaultProjects">
+            <div class="wrapper-grid">
+            </div>
+        </div>
+    </div>
 
-    <div class="wrapper-grid">
-    </div>
-    </div>
     <script src="main.js"></script>
 </body>
+
 </html>
