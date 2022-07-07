@@ -22,8 +22,9 @@
     <form>
         <span class="close">&times;</span>
         <h1 class="form-title">Add task</h1>
-        <label for="project">Project:</label>
-        <!-- <input type="text" id="project" name="project"> -->
+        <label for="project">Add project:</label>
+        <input type="text" id="project" name="project">
+        <label for="project">Choose project:</label>
         <select id="projects">
         </select>
         <label for="title">Title:</label>
@@ -33,12 +34,15 @@
         <label for="dueDate">DueDate:</label>
         <input type="text" id="dueDate" name="dueDate">
         <label for="priority">Priority:</label>
-        <input type="text" id="priority" name="priority">
+        <select id="priority">
+            <option value="high">high</option>
+            <option value="low">low</option>
+        </select>
         <input class='submit' type="submit" value="Submit">
     </form>
     
     <div class="projects">
-        <div class="defaultProjects">
+        <div class="defaultProject">
             <div class="wrapper-grid">
             </div>
         </div>

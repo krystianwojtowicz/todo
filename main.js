@@ -2,7 +2,7 @@ const form = document.querySelector("form");
 const addTaskBtn = document.querySelector(".add-task");
 const close = document.querySelector(".close");
 const submit = document.querySelector(".submit");
-const projects2 = document.querySelector(".defaultProjects .wrapper-grid");
+// const defaultProjects = document.querySelector(".defaultProject .wrapper-grid");
 const remove = document.querySelectorAll(".remove");
 const select = document.getElementById('projects');
 const projects = document.querySelector('.projects');
@@ -13,6 +13,7 @@ class Task {
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
+    this.complete = false;
   }
 }
 
@@ -23,17 +24,19 @@ class Project {
   }
 }
 const arrayOfProjects = [];
+// let task;
 let newArr = [];
 let project = [];
-let divProject;
+let divWrapper;
 
 let projectDefault = new Project('defaultProject');
 arrayOfProjects.push(projectDefault);
-console.log(arrayOfProjects)
-const option = document.createElement('option');
-select.appendChild(option);
+console.log(arrayOfProjects);
+let option = document.createElement('option');
 option.value = arrayOfProjects[0].name;
 option.textContent = arrayOfProjects[0].name;
+select.options.add(new Option(`${arrayOfProjects[0].name}`, `${arrayOfProjects[0].name}`));
+
 // const arrayOfProjects = [];
 
 // let project = new Project('defaultProject');
@@ -47,41 +50,65 @@ addTaskBtn.addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  submit.addEventListener("click", addTaskToProjects);
+  submit.addEventListener("click", addProjectToProjects);
 });
 
-const addTaskToProjects = (e) => {
-  newArr = arrayOfProjects.map(project => project[Object.keys(project)[0]]);
+const addProjectToProjects = (e) => {
   e.preventDefault();
+  newArr = arrayOfProjects.map(project => project[Object.keys(project)[0]]);
+  if (document.getElementById("project").value) {
+    project = {
+      name: document.getElementById("project").value,
+      tasks: []
+    }
+  } else {
+    project = {
+      name: select.value,
+      tasks: []
+    }
+  }
+
+  if (newArr.indexOf(project.name) > -1) {
+    // arrayOfProjects[newArr.indexOf(project.name)].tasks.push(task);
+    divWrapper = document.querySelector(`.${arrayOfProjects[newArr.indexOf(project.name)].name} .wrapper-grid`);
+  } else {
+    arrayOfProjects.push(project);
+    // arrayOfProjects[arrayOfProjects.length - 1].tasks.push(task);
+    // console.log(arrayOfProjects);
+
+    const div = document.createElement('div');
+    div.classList.add(project.name);
+    projects.appendChild(div);
+
+    const h1 = document.createElement('h1');
+    h1.textContent = `Current Tasks in ${project.name}`;
+    div.appendChild(h1);
+
+    divWrapper = document.createElement('div');
+    divWrapper.classList.add('wrapper-grid');
+    div.appendChild(divWrapper);
+
+    option.value = arrayOfProjects[arrayOfProjects.length - 1].name;
+    option.textContent = arrayOfProjects[arrayOfProjects.length - 1].name;
+    select.options.add(new Option(`${ arrayOfProjects[arrayOfProjects.length-1].name}`, `${ arrayOfProjects[arrayOfProjects.length-1].name}`));
+
+
+  }
+  newArr = arrayOfProjects.map(project => project[Object.keys(project)[0]]);
+  // console.log(arrayOfProjects[newArr.indexOf(project.name)]);
+  addTaskToProjects();
+}
+
+const addTaskToProjects = () => {
+
   let task = {
     title: document.getElementById("title").value,
     description: document.getElementById("description").value,
     dueDate: document.getElementById("dueDate").value,
     priority: document.getElementById("priority").value,
+    complete: false,
   };
-  
-  project = {
-    name: select.value,
-    tasks: []
-  };
-
-  
-  if (newArr.indexOf(project.name) > -1) {
-    arrayOfProjects[newArr.indexOf(project.name)].tasks.push(task);
-    divProject = document.getElementsByClassName(project.name);
-    console.log(divProject)
-  } else {
-    arrayOfProjects.push(project);
-    arrayOfProjects[arrayOfProjects.length-1].tasks.push(task);
-    console.log(arrayOfProjects);
-    divProject = document.createElement('div');
-    divProject.classList.add(project.name);
-    projects.appendChild(divProject);
-
-  }
-  newArr = arrayOfProjects.map(project => project[Object.keys(project)[0]]);
-  // console.log(arrayOfProjects[newArr.indexOf(project.name)]);
-
+  arrayOfProjects[newArr.indexOf(project.name)].tasks.push(task);
   form.style.display = "none";
   form.reset();
   display();
@@ -89,7 +116,7 @@ const addTaskToProjects = (e) => {
 
 function display() {
 
-  divProject.textContent = '';
+  document.querySelector(`.${arrayOfProjects[newArr.indexOf(project.name)].name} .wrapper-grid`).textContent = '';
   let index = 0;
   // console.log(newArr);
   // console.log(arrayOfProjects[newArr.indexOf(project.name)]);
@@ -105,19 +132,52 @@ function display() {
 
     const div = document.createElement("div");
     div.classList.add("container");
-    divProject.appendChild(div);
+    divWrapper.appendChild(div);
 
     createTaskElement('h4', 'title:', `${task.title}`);
     createTaskElement('h4', 'description:', `${task.description}`);
     createTaskElement('h4', 'dueDate:', `${task.dueDate}`);
-    createTaskElement('h4', 'priority:', `${task.priority}`);
 
+    const showPriority = document.createElement('h4');
+    div.appendChild(showPriority);
+    showPriority.textContent = 'priority:';
 
-    // if (book.read) {
-    //   checkbox.textContent = 'read';
-    // } else {
-    //   checkbox.textContent = 'not read';
-    // }
+    const priorityValue = document.createElement('button');
+    if (task.priority == 'high') {
+      priorityValue.textContent = 'high';
+    } else {
+      priorityValue.textContent = 'low';
+    }
+    div.appendChild(priorityValue);
+
+    priorityValue.addEventListener('click', () => {
+      if (task.priority == 'high') {
+        task.priority = 'low';
+        priorityValue.textContent = 'low';
+      } else {
+        task.priority = 'high';
+        priorityValue.textContent = 'high';
+      }
+      console.log(arrayOfProjects)
+    });
+
+    const checkbox = document.createElement("button");
+    if (task.complete) {
+      checkbox.textContent = 'complete';
+    } else {
+      checkbox.textContent = 'not complete';
+    }
+    div.appendChild(checkbox);
+
+    checkbox.addEventListener('click', () => {
+      if (task.complete) {
+        task.complete = false;
+        checkbox.textContent = 'not complete';
+      } else {
+        task.complete = true;
+        checkbox.textContent = 'complete';
+      }
+    });
     // checkbox.textContent = book.read ? 'read' : 'not read';
 
     // create remove task btn and add class attribute for each array card
@@ -131,11 +191,11 @@ function display() {
     div.appendChild(removeTaskBtn);
 
     // start event listener/remove array item from array and card from parent div via data link
-    removeTaskBtn.addEventListener('click', removeTaskFromLibrary);
+    removeTaskBtn.addEventListener('click', removeTaskFromProjects);
 
-    function removeTaskFromLibrary() {
+    function removeTaskFromProjects() {
       let getTaskToRemove = removeTaskBtn.dataset.linkedArray;
-      arrayOfProjects[0].tasks.splice(parseInt(getTaskToRemove), 1);
+      arrayOfProjects[newArr.indexOf(project.name)].tasks.splice(parseInt(getTaskToRemove), 1);
       div.remove();
       display();
     }
