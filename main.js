@@ -7,7 +7,7 @@ const remove = document.querySelectorAll(".remove");
 const select = document.getElementById('projects');
 const projects = document.querySelector('.projects');
 
-let index2=0;
+
 class Task {
   constructor(title, description, dueDate, priority) {
     this.title = title;
@@ -106,6 +106,7 @@ function addProjectToProjects(e) {
 }
 
 function addTaskToProjects(newArr, divWrapper, project) {
+  let index2=0;
   let task = {
     title: document.getElementById("title").value,
     description: document.getElementById("description").value,
@@ -202,7 +203,7 @@ function display(newArr, divWrapper, project) {
     div.appendChild(removeTaskBtn);
 
     // start event listener/remove array item from array and card from parent div via data link
-    removeTaskBtn.addEventListener('click', removeTaskFromProjects());
+    removeTaskBtn.addEventListener('click', removeTaskFromProjects);
 
     function removeTaskFromProjects() {
       let getTaskToRemove = removeTaskBtn.dataset.linkedArray;
