@@ -205,7 +205,7 @@ function display(newArr, divWrapper, project) {
     // start event listener/remove array item from array and card from parent div via data link
     removeTaskBtn.addEventListener('click', removeTaskFromProjects);
 
-    function removeTaskFromProjects() {
+    function removeTaskFromProjects(newArr, divWrapper, project) {
       let getTaskToRemove = removeTaskBtn.dataset.linkedArray;
       console.log(arrayOfProjects[0].tasks)
       // for (let i = 0; i < arrayOfProjects.length ; i++) {
