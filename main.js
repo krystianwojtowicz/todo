@@ -219,7 +219,7 @@ function display(newArr, divWrapper, project) {
       // }
       arrayOfProjects[newArr.indexOf(project.name)].tasks.splice(parseInt(getTaskToRemove), 1);
       div.remove();
-      display();
+      display(newArr, divWrapper, project);
     }
   })
 }
