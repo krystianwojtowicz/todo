@@ -7,6 +7,7 @@ const remove = document.querySelectorAll(".remove");
 const select = document.getElementById('projects');
 const projects = document.querySelector('.projects');
 
+let index2=0;
 class Task {
   constructor(title, description, dueDate, priority) {
     this.title = title;
@@ -14,6 +15,9 @@ class Task {
     this.dueDate = dueDate;
     this.priority = priority;
     this.complete = false;
+    // this.id = new Date().valueOf();
+    this.id = id;
+
   }
 }
 
@@ -25,9 +29,9 @@ class Project {
 }
 const arrayOfProjects = [];
 // let task;
-let newArr = [];
-let project = [];
-let divWrapper;
+// let newArr = [];
+// let project = [];
+// let divWrapper;
 
 let projectDefault = new Project('defaultProject');
 arrayOfProjects.push(projectDefault);
@@ -53,9 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
   submit.addEventListener("click", addProjectToProjects);
 });
 
-const addProjectToProjects = (e) => {
+function addProjectToProjects(e) {
+  let project = [];
+  let divWrapper;
   e.preventDefault();
-  newArr = arrayOfProjects.map(project => project[Object.keys(project)[0]]);
+  let newArr = arrayOfProjects.map(project => project[Object.keys(project)[0]]);
   if (document.getElementById("project").value) {
     project = {
       name: document.getElementById("project").value,
@@ -96,25 +102,30 @@ const addProjectToProjects = (e) => {
   }
   newArr = arrayOfProjects.map(project => project[Object.keys(project)[0]]);
   // console.log(arrayOfProjects[newArr.indexOf(project.name)]);
-  addTaskToProjects();
+  addTaskToProjects(newArr, divWrapper, project);
 }
 
-const addTaskToProjects = () => {
-
+function addTaskToProjects(newArr, divWrapper, project) {
   let task = {
     title: document.getElementById("title").value,
     description: document.getElementById("description").value,
     dueDate: document.getElementById("dueDate").value,
     priority: document.getElementById("priority").value,
     complete: false,
+    // id: new Date().valueOf(),
+    id: index2,
+
   };
+  index2++;
+  console.log(arrayOfProjects);
+  console.log(arrayOfProjects[0].tasks)
   arrayOfProjects[newArr.indexOf(project.name)].tasks.push(task);
   form.style.display = "none";
   form.reset();
-  display();
+  display(newArr, divWrapper, project);
 }
 
-function display() {
+function display(newArr, divWrapper, project) {
 
   document.querySelector(`.${arrayOfProjects[newArr.indexOf(project.name)].name} .wrapper-grid`).textContent = '';
   let index = 0;
@@ -133,7 +144,7 @@ function display() {
     const div = document.createElement("div");
     div.classList.add("container");
     divWrapper.appendChild(div);
-
+    div.setAttribute("id", `${task.id}`);
     createTaskElement('h4', 'title:', `${task.title}`);
     createTaskElement('h4', 'description:', `${task.description}`);
     createTaskElement('h4', 'dueDate:', `${task.dueDate}`);
@@ -186,15 +197,25 @@ function display() {
     removeTaskBtn.textContent = "remove";
 
     // link the data attribute of the remove button to the array and card
-    removeTaskBtn.dataset.linkedArray = index;
+    removeTaskBtn.dataset.linkedArray = task.id;
     index++;
     div.appendChild(removeTaskBtn);
 
     // start event listener/remove array item from array and card from parent div via data link
-    removeTaskBtn.addEventListener('click', removeTaskFromProjects);
+    removeTaskBtn.addEventListener('click', removeTaskFromProjects());
 
     function removeTaskFromProjects() {
       let getTaskToRemove = removeTaskBtn.dataset.linkedArray;
+      console.log(arrayOfProjects[0].tasks)
+      // for (let i = 0; i < arrayOfProjects.length ; i++) {
+      //   for (let j = 0; j < arrayOfProjects[i][1].length; j++) {
+      //   if(arrayOfProjects[i][tasks].title.textContent = 'a') {
+      //     console.log(2)
+      //   } else {
+      //     console.log(3)
+      //   }
+      // }
+      // }
       arrayOfProjects[newArr.indexOf(project.name)].tasks.splice(parseInt(getTaskToRemove), 1);
       div.remove();
       display();
