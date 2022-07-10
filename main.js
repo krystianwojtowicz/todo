@@ -101,7 +101,7 @@ function addProjectToProjects(e) {
 
   }
   newArr = arrayOfProjects.map(project => project[Object.keys(project)[0]]);
-  // console.log(arrayOfProjects[newArr.indexOf(project.name)]);
+  // console.log(typeof project.name);
   addTaskToProjects(newArr, divWrapper, project);
 }
 
@@ -119,7 +119,7 @@ function addTaskToProjects(newArr, divWrapper, project) {
   };
   index2++;
   console.log(arrayOfProjects);
-  console.log(arrayOfProjects[0].tasks)
+  console.log(arrayOfProjects[0].tasks);
   arrayOfProjects[newArr.indexOf(project.name)].tasks.push(task);
   form.style.display = "none";
   form.reset();
@@ -127,7 +127,6 @@ function addTaskToProjects(newArr, divWrapper, project) {
 }
 
 function display(newArr, divWrapper, project) {
-
   document.querySelector(`.${arrayOfProjects[newArr.indexOf(project.name)].name} .wrapper-grid`).textContent = '';
   let index = 0;
   // console.log(newArr);
@@ -203,11 +202,14 @@ function display(newArr, divWrapper, project) {
     div.appendChild(removeTaskBtn);
 
     // start event listener/remove array item from array and card from parent div via data link
-    removeTaskBtn.addEventListener('click', removeTaskFromProjects);
+    removeTaskBtn.addEventListener('click', removeTaskFromProjects.bind(newArr, divWrapper, project));
 
-    function removeTaskFromProjects(newArr, divWrapper, project) {
+    function removeTaskFromProjects() {
       let getTaskToRemove = removeTaskBtn.dataset.linkedArray;
-      console.log(arrayOfProjects[0].tasks)
+      console.log(arrayOfProjects[0].tasks);
+      // console.log(arrayOfProjects[newArr.indexOf(project.name)]);
+
+
       // for (let i = 0; i < arrayOfProjects.length ; i++) {
       //   for (let j = 0; j < arrayOfProjects[i][1].length; j++) {
       //   if(arrayOfProjects[i][tasks].title.textContent = 'a') {
