@@ -33,25 +33,30 @@ const arrayOfProjects = JSON.parse(localStorage.getItem("array")) || [];
 // let project = [];
 // let divWrapper;
 
+(function(){
+  let newArr;
 if (arrayOfProjects.length == 0) {
   let projectDefault = new Project("defaultProject");
   arrayOfProjects.push(projectDefault);
   console.log(arrayOfProjects);
-  console.log(JSON.parse(localStorage.getItem("arrayOfProjects")))
-  let option = document.createElement("option");
-  option.value = arrayOfProjects[0].name;
-  option.textContent = arrayOfProjects[0].name;
-  select.options.add(
-    new Option(`${arrayOfProjects[0].name}`, `${arrayOfProjects[0].name}`)
-  );
-  console.log(arrayOfProjects)
+  console.log(JSON.parse(localStorage.getItem("arrayOfProjects")));
+
+
+
 } else {
-  let newArr = arrayOfProjects.map(
+  newArr = arrayOfProjects.map(
     (project) => project[Object.keys(project)[0]]
   );
-  addProjectToProjects();
+  // addProjectToProjects();
 }
+let option = document.createElement("option");
+option.value = arrayOfProjects[0].name;
+option.textContent = arrayOfProjects[0].name;
+select.options.add(
+  new Option(`${arrayOfProjects[0].name}`, `${arrayOfProjects[0].name}`)
+);
 console.log(arrayOfProjects);
+})();
 
 // const arrayOfProjects = [];
 
@@ -96,10 +101,10 @@ document.addEventListener("DOMContentLoaded", () => {
 //   // ...
 // };
 
-function addProjectToProjects() {
+function addProjectToProjects(e) {
   let project = [];
   let divWrapper;
-  // e.preventDefault();
+  e.preventDefault();
   newArr = arrayOfProjects.map(
     (project) => project[Object.keys(project)[0]]
   );
@@ -151,6 +156,10 @@ function addProjectToProjects() {
   // console.log(typeof project.name);
   addTaskToProjects(newArr, divWrapper, project,);
 }
+
+// function addProjectToProjectsFromStorage() {
+
+// }
 
 let index = 0;
 

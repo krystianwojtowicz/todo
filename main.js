@@ -45,7 +45,7 @@ if (arrayOfProjects.length == 0) {
     new Option(`${arrayOfProjects[0].name}`, `${arrayOfProjects[0].name}`)
   );
 } else {
-  display(addProjectToProjects, addTaskToProjects,);
+  // display(addProjectToProjects, addTaskToProjects,);
 }
 console.log(arrayOfProjects);
 
