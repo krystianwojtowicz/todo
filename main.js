@@ -9,14 +9,14 @@ const projects = document.querySelector(".projects");
 const clear = document.querySelector(".clear");
 
 class Task {
-  constructor(title, description, dueDate, priority) {
+  constructor(title, description, dueDate, priority, id) {
+    this.id = id;
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.complete = false;
     // this.id = new Date().valueOf();
-    this.id = id;
   }
 }
 
@@ -45,7 +45,7 @@ if (arrayOfProjects.length == 0) {
     new Option(`${arrayOfProjects[0].name}`, `${arrayOfProjects[0].name}`)
   );
 } else {
-  display(addProjectToProjects, addTaskToProjects);
+  display(addProjectToProjects, addTaskToProjects,);
 }
 console.log(arrayOfProjects);
 
@@ -65,6 +65,22 @@ document.addEventListener("DOMContentLoaded", () => {
   submit.addEventListener("click", addProjectToProjects);
 });
 
+// // bad
+// function foo() {
+//   // ...
+// }
+
+// // bad
+// const foo = function () {
+//   // ...
+// };
+
+// // good
+// // lexical name distinguished from the variable-referenced invocation(s)
+// const short = function longUniqueMoreDescriptiveLexicalFoo() {
+//   // ...
+// };
+
 function addProjectToProjects(e) {
   let project = [];
   let divWrapper;
@@ -83,7 +99,7 @@ function addProjectToProjects(e) {
       tasks: [],
     };
   }
-
+// tu trzeba zrobić nową funkcję do wyświetlania projektu z localstorage i nie display tylko najpierw ta funkcja i tak samo z taskiem i powinno być ok
   if (newArr.indexOf(project.name) > -1) {
     // arrayOfProjects[newArr.indexOf(project.name)].tasks.push(task);
     divWrapper = document.querySelector(
@@ -117,12 +133,12 @@ function addProjectToProjects(e) {
   }
   newArr = arrayOfProjects.map((project) => project[Object.keys(project)[0]]);
   // console.log(typeof project.name);
-  addTaskToProjects(newArr, divWrapper, project);
+  addTaskToProjects(newArr, divWrapper, project,);
 }
 
 let index = 0;
 
-function addTaskToProjects(newArr, divWrapper, project) {
+function addTaskToProjects(newArr, divWrapper, project,) {
   let task = {
     title: document.getElementById("title").value,
     description: document.getElementById("description").value,
@@ -178,7 +194,7 @@ function display(newArr, divWrapper, project) {
     // start event listener/remove array item from array and card from parent div via data link
     removeTaskBtn.addEventListener(
       "click",
-      removeTaskFromProjects.bind(null, newArr, divWrapper, project, task, link, div)
+      removeTaskFromProjects.bind(null, newArr, divWrapper, project, task, link, div,)
     );
   });
 }
@@ -191,7 +207,7 @@ function createTaskElement(el, content) {
 }
 
 
-function removeTaskFromProjects(newArr, divWrapper, project, task, link, div) {
+function removeTaskFromProjects(newArr, divWrapper, project, task, link, div,) {
   let getTaskToRemove = link;
 
   function find(task) {
@@ -203,11 +219,11 @@ function removeTaskFromProjects(newArr, divWrapper, project, task, link, div) {
     1
   );
   div.remove();
-  display(newArr, divWrapper, project);
+  display(newArr, divWrapper, project,);
 }
 
 
-function createPriorityElement(task, div) {
+function createPriorityElement(task, div,) {
   const showPriority = document.createElement("h4");
   div.appendChild(showPriority);
   showPriority.textContent = "priority:";
@@ -233,7 +249,7 @@ function createPriorityElement(task, div) {
 }
 
 
-function createCheckingElement(task, div) {
+function createCheckingElement(task, div,) {
   const checkbox = document.createElement("button");
   if (task.complete) {
     checkbox.textContent = "complete";
