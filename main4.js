@@ -28,26 +28,23 @@ const arrayOfProjects = JSON.parse(localStorage.getItem("array")) || [];
 
 (function () {
   let newArr;
+  let project= [];
   if (arrayOfProjects.length == 0) {
-    let projectDefault = new Project("defaultProject");
-    arrayOfProjects.push(projectDefault);
+    project = new Project("defaultProject");
+    arrayOfProjects.push(project);
     console.log(arrayOfProjects);
     console.log(JSON.parse(localStorage.getItem("arrayOfProjects")));
-    addOption();
-  } else {
-    // newArr = arrayOfProjects.map((project) => project[Object.keys(project)[0]]);
-    // newArr.foreach;
-
+    addOption(project);
   }
   console.log(arrayOfProjects);
 })();
 
-function addOption() {
+function addOption(project) {
   let option = document.createElement("option");
-  option.value = arrayOfProjects[0].name;
-  option.textContent = arrayOfProjects[0].name;
+  option.value = project.name;
+  option.textContent = project.name;
   select.options.add(
-    new Option(`${arrayOfProjects[0].name}`, `${arrayOfProjects[0].name}`)
+    new Option(`${project.name}`, `${project.name}`)
   );
   console.log(arrayOfProjects);
 }
@@ -55,16 +52,24 @@ function addOption() {
 function addProjectToProjects(e) {
     e.preventDefault();
     let project = [];
-    project = {
+    if (document.getElementById("project").value) {
+      project = {
+        name: document.getElementById("project").value,
+        tasks: [],
+      };
+    } else {
+      project = {
         name: select.value,
         tasks: [],
       };
+    }
       arrayOfProjects.push(project);
       console.log(arrayOfProjects)
       form.style.display = "none";
       form.reset();
       const myObj = JSON.stringify(arrayOfProjects);
       localStorage.setItem('array', myObj);
+      addOption(project);
 }
 
 clear.addEventListener("click", function () {
@@ -77,4 +82,8 @@ close.addEventListener("click", () => {
 
 addTaskBtn.addEventListener("click", () => {
   form.style.display = "block";
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  submit.addEventListener("click", addProjectToProjects);
 });
