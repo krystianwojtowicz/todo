@@ -52,7 +52,6 @@ function addOption(project) {
   option.textContent = project.name;
   select.options.add(new Option(`${ project.name }`, `${ project.name }`));
   addProjectToDOM(project);
-  console.log(arrayOfProjects);
 }
 
 function addProjectToProjects(e) {
@@ -166,7 +165,6 @@ function createCheckingElement(task, div,) {
 }
 
 function addTaskToDOM(task, project) {
-  console.log(project.name);
   const divWrapper = document.querySelector(`.${ project.name } .wrapper-grid`);
   const div = document.createElement("div");
     div.classList.add("container");
@@ -204,7 +202,6 @@ function removeTaskFromProjects(divWrapper, project, task, link, div,) {
   const taskId = (arrayOfProjects[arrayOfProjects
     .findIndex(x => x.name === project.name)]
     .tasks.findIndex(find));
-  console.log(taskId);
   arrayOfProjects[arrayOfProjects
     .findIndex(x => x.name === project.name)]
     .tasks.splice(
@@ -213,7 +210,6 @@ function removeTaskFromProjects(divWrapper, project, task, link, div,) {
   );
   let myObj = JSON.stringify(arrayOfProjects);
     localStorage.setItem("array", myObj);
-  console.log(arrayOfProjects)
   div.remove();
 }
 
