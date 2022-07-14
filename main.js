@@ -50,7 +50,7 @@ function addOption(project) {
   let option = document.createElement("option");
   option.value = project.name;
   option.textContent = project.name;
-  select.options.add(new Option(`${project.name}`, `${project.name}`));
+  select.options.add(new Option(`${ project.name }`, `${ project.name }`));
   addProjectToDOM(project);
   console.log(arrayOfProjects);
 }
@@ -82,7 +82,7 @@ function addProjectToDOM(project) {
   projects.appendChild(div);
 
   const h1 = document.createElement("h1");
-  h1.textContent = `Current Tasks in ${project.name}`;
+  h1.textContent = `Current Tasks in ${ project.name }`;
   div.appendChild(h1);
 
   const divWrapper = document.createElement("div");
@@ -103,7 +103,9 @@ function addTaskToProjects(project) {
   index += 1;
   let myIndex = JSON.stringify(index);
     localStorage.setItem("index", myIndex);
-  arrayOfProjects[arrayOfProjects.findIndex(x => x.name === project.name)].tasks.push(task);
+  arrayOfProjects[arrayOfProjects
+    .findIndex(x => x.name === project.name)]
+    .tasks.push(task);
   console.log(arrayOfProjects);
   form.style.display = "none";
   form.reset();
@@ -161,21 +163,21 @@ function createCheckingElement(task, div,) {
       checkbox.textContent = "complete";
     }
   });
-  // checkbox.textContent = book.read ? 'read' : 'not read';
 }
 
 function addTaskToDOM(task, project) {
   console.log(project.name);
-  const divWrapper = document.querySelector(`.${project.name} .wrapper-grid`);
+  const divWrapper = document.querySelector(`.${ project.name } .wrapper-grid`);
   const div = document.createElement("div");
     div.classList.add("container");
     divWrapper.appendChild(div);
     div.setAttribute("id", `${task.id}`);
-    div.appendChild(createTaskElement("h4", `title: ${task.title}`));
-    div.appendChild(createTaskElement("h4", `description: ${task.description}`));
-    div.appendChild(createTaskElement("h4", `dueDate: ${task.dueDate}`));
+    div.appendChild(createTaskElement("h4", `title: ${ task.title }`));
+    div.appendChild(createTaskElement("h4", `description: ${ task.description }`));
+    div.appendChild(createTaskElement("h4", `dueDate: ${ task.dueDate }`));
     createPriorityElement(task, div);
     createCheckingElement(task, div);
+
         // create remove task btn and add class attribute for each array card
         const removeTaskBtn = document.createElement("button");
         removeTaskBtn.classList.add("remove-task-btn");
@@ -199,9 +201,13 @@ function removeTaskFromProjects(divWrapper, project, task, link, div,) {
   function find(task) {
     return task.id == getTaskToRemove;
   };
-  const taskId = (arrayOfProjects[arrayOfProjects.findIndex(x => x.name === project.name)].tasks.findIndex(find));
+  const taskId = (arrayOfProjects[arrayOfProjects
+    .findIndex(x => x.name === project.name)]
+    .tasks.findIndex(find));
   console.log(taskId);
-  arrayOfProjects[arrayOfProjects.findIndex(x => x.name === project.name)].tasks.splice(
+  arrayOfProjects[arrayOfProjects
+    .findIndex(x => x.name === project.name)]
+    .tasks.splice(
     parseInt(taskId),
     1
   );
