@@ -27,7 +27,7 @@ class Project {
 const arrayOfProjects = JSON.parse(localStorage.getItem("array")) || [];
 let index = JSON.parse(localStorage.getItem("index")) || 0;
 
-(function () {
+function init() {
   let project = [];
   if (arrayOfProjects.length == 0) {
     project = new Project("defaultProject");
@@ -41,7 +41,8 @@ let index = JSON.parse(localStorage.getItem("index")) || 0;
       });
     });
   }
-})();
+};
+init();
 
 function addOption(project) {
   let option = document.createElement("option");
