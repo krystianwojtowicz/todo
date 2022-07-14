@@ -41,7 +41,7 @@ function init() {
       });
     });
   }
-};
+}
 init();
 
 function addOption(project) {
