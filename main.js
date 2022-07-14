@@ -32,14 +32,11 @@ let index = JSON.parse(localStorage.getItem("index")) || 0;
   if (arrayOfProjects.length == 0) {
     project = new Project("defaultProject");
     arrayOfProjects.push(project);
-    console.log(arrayOfProjects);
-    console.log(JSON.parse(localStorage.getItem("arrayOfProjects")));
     addOption(project);
-    console.log(arrayOfProjects);
   } else {
     arrayOfProjects.forEach((project) => {
       addOption(project);
-      project.tasks.forEach(task => {
+      project.tasks.forEach((task) => {
         addTaskToDOM(task, project);
       });
     });
@@ -50,7 +47,7 @@ function addOption(project) {
   let option = document.createElement("option");
   option.value = project.name;
   option.textContent = project.name;
-  select.options.add(new Option(`${ project.name }`, `${ project.name }`));
+  select.options.add(new Option(`${project.name}`, `${project.name}`));
   addProjectToDOM(project);
 }
 
@@ -81,7 +78,7 @@ function addProjectToDOM(project) {
   projects.appendChild(div);
 
   const h1 = document.createElement("h1");
-  h1.textContent = `Current Tasks in ${ project.name }`;
+  h1.textContent = `Current Tasks in ${project.name}`;
   div.appendChild(h1);
 
   const divWrapper = document.createElement("div");
@@ -90,7 +87,7 @@ function addProjectToDOM(project) {
 }
 
 function addTaskToProjects(project) {
-  console.log(project.name)
+  console.log(project.name);
   let task = {
     id: index,
     title: document.getElementById("title").value,
@@ -101,15 +98,15 @@ function addTaskToProjects(project) {
   };
   index += 1;
   let myIndex = JSON.stringify(index);
-    localStorage.setItem("index", myIndex);
-  arrayOfProjects[arrayOfProjects
-    .findIndex(x => x.name === project.name)]
-    .tasks.push(task);
+  localStorage.setItem("index", myIndex);
+  arrayOfProjects[
+    arrayOfProjects.findIndex((x) => x.name === project.name)
+  ].tasks.push(task);
   console.log(arrayOfProjects);
   form.style.display = "none";
   form.reset();
   let myObj = JSON.stringify(arrayOfProjects);
-  localStorage.setItem('array', myObj);
+  localStorage.setItem("array", myObj);
   addTaskToDOM(task, project);
 }
 
@@ -119,7 +116,7 @@ function createTaskElement(el, content) {
   return elem;
 }
 
-function createPriorityElement(task, div,) {
+function createPriorityElement(task, div) {
   const showPriority = document.createElement("h4");
   div.appendChild(showPriority);
   showPriority.textContent = "priority:";
@@ -144,7 +141,7 @@ function createPriorityElement(task, div,) {
   });
 }
 
-function createCheckingElement(task, div,) {
+function createCheckingElement(task, div) {
   const checkbox = document.createElement("button");
   if (task.complete) {
     checkbox.textContent = "complete";
@@ -165,51 +162,49 @@ function createCheckingElement(task, div,) {
 }
 
 function addTaskToDOM(task, project) {
-  const divWrapper = document.querySelector(`.${ project.name } .wrapper-grid`);
+  const divWrapper = document.querySelector(`.${project.name} .wrapper-grid`);
   const div = document.createElement("div");
-    div.classList.add("container");
-    divWrapper.appendChild(div);
-    div.setAttribute("id", `${task.id}`);
-    div.appendChild(createTaskElement("h4", `title: ${ task.title }`));
-    div.appendChild(createTaskElement("h4", `description: ${ task.description }`));
-    div.appendChild(createTaskElement("h4", `dueDate: ${ task.dueDate }`));
-    createPriorityElement(task, div);
-    createCheckingElement(task, div);
+  div.classList.add("container");
+  divWrapper.appendChild(div);
+  div.setAttribute("id", `${task.id}`);
+  div.appendChild(createTaskElement("h4", `title: ${task.title}`));
+  div.appendChild(createTaskElement("h4", `description: ${task.description}`));
+  div.appendChild(createTaskElement("h4", `dueDate: ${task.dueDate}`));
+  createPriorityElement(task, div);
+  createCheckingElement(task, div);
 
-        // create remove task btn and add class attribute for each array card
-        const removeTaskBtn = document.createElement("button");
-        removeTaskBtn.classList.add("remove-task-btn");
-        removeTaskBtn.textContent = "remove";
-    
-        // link the data attribute of the remove button to the array and card
-        removeTaskBtn.dataset.linkedArray = task.id;
-        const link = removeTaskBtn.dataset.linkedArray
-        div.appendChild(removeTaskBtn);
-    
-        // start event listener/remove array item from array and card from parent div via data link
-        removeTaskBtn.addEventListener(
-          "click",
-          removeTaskFromProjects.bind(null, divWrapper, project, task, link, div,)
-        );
+  // create remove task btn and add class attribute for each array card
+  const removeTaskBtn = document.createElement("button");
+  removeTaskBtn.classList.add("remove-task-btn");
+  removeTaskBtn.textContent = "remove";
+
+  // link the data attribute of the remove button to the array and card
+  removeTaskBtn.dataset.linkedArray = task.id;
+  const link = removeTaskBtn.dataset.linkedArray;
+  div.appendChild(removeTaskBtn);
+
+  // start event listener/remove array item from array and card from parent div via data link
+  removeTaskBtn.addEventListener(
+    "click",
+    removeTaskFromProjects.bind(null, divWrapper, project, task, link, div)
+  );
 }
 
-function removeTaskFromProjects(divWrapper, project, task, link, div,) {
+function removeTaskFromProjects(divWrapper, project, task, link, div) {
   let getTaskToRemove = link;
 
   function find(task) {
     return task.id == getTaskToRemove;
-  };
-  const taskId = (arrayOfProjects[arrayOfProjects
-    .findIndex(x => x.name === project.name)]
-    .tasks.findIndex(find));
-  arrayOfProjects[arrayOfProjects
-    .findIndex(x => x.name === project.name)]
-    .tasks.splice(
-    parseInt(taskId),
-    1
-  );
+  }
+  const taskId =
+    arrayOfProjects[
+      arrayOfProjects.findIndex((x) => x.name === project.name)
+    ].tasks.findIndex(find);
+  arrayOfProjects[
+    arrayOfProjects.findIndex((x) => x.name === project.name)
+  ].tasks.splice(parseInt(taskId), 1);
   let myObj = JSON.stringify(arrayOfProjects);
-    localStorage.setItem("array", myObj);
+  localStorage.setItem("array", myObj);
   div.remove();
 }
 
