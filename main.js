@@ -211,6 +211,9 @@ function removeTaskFromProjects(divWrapper, project, task, link, div) {
 
 clear.addEventListener("click", function () {
   localStorage.clear();
+  projects.textContent = "";
+  arrayOfProjects.length = 0;
+  init();
 });
 
 close.addEventListener("click", () => {
