@@ -30,6 +30,7 @@ form {
 button {
   display: block;
   margin: 5px auto;
+  padding: 5px;
 }
 
 .form-title {
